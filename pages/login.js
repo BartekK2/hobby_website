@@ -5,6 +5,8 @@ import {
 } from "@mui/material/"
 import { useRouter } from 'next/router'
 import { useAuth } from '../AuthContext'
+import { doc, setDoc, } from "firebase/firestore"
+import { db } from '../firebaseSetup'
 
 function Login() {
     const [mode, setmode] = useState("login");
@@ -32,8 +34,8 @@ function Login() {
     }
 
     // Firebase
-    const { signin, signup, currentUser } = useAuth();
-    const [login, setlogin] = useState("");
+    const { login, signup, currentUser } = useAuth();
+    const [email, setEmail] = useState("");
     const [password, setpassword] = useState("");
     const [password2, setpassword2] = useState("");
     const [error, setError] = useState("")
@@ -53,7 +55,7 @@ function Login() {
         e.preventDefault()
         try {
             setLoading(true)
-            await signin(login, password)
+            await login(email, password)
         } catch (e) {
             setError({
                 "auth/wrong-password": "Wrong password",
@@ -69,13 +71,20 @@ function Login() {
 
     async function handleRegister(e) {
         e.preventDefault();
+
+        //adding document with user details
+        // const docRef = doc(db, "users_details", "x");
+        // await setDoc(docRef, {
+        //     password: password2,
+        // });
+
         if (password != password2) {
             setError("Passwords didn't match")
         }
         else {
             try {
                 setLoading(true)
-                await signup(login, password)
+                await signup(email, password)
             } catch (e) {
                 setError({
                     "auth/invalid-email": "Invalid email passed.",
@@ -118,7 +127,7 @@ function Login() {
                                         <TextField
                                             required
                                             label="Email"
-                                            onChange={(e) => setlogin(e.target.value)}
+                                            onChange={(e) => setEmail(e.target.value)}
                                         />
                                         <TextField
                                             required
@@ -132,7 +141,7 @@ function Login() {
                                         <TextField
                                             required
                                             label="Login"
-                                            onChange={(e) => setlogin(e.target.value)}
+                                            onChange={(e) => setEmail(e.target.value)}
                                         />
                                         <TextField
                                             required
