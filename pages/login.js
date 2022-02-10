@@ -38,8 +38,14 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setpassword] = useState("");
     const [password2, setpassword2] = useState("");
-    const [error, setError] = useState("")
-    const [loading, setLoading] = useState("")
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState("");
+
+
+    // TODO add details after clicking signup button make it easier to make and read with useRedeucer or sth
+    // const [enabledDetails, enableDetails] = useState("");
+    // const [description, setDescription] = useState("");
+    // const [gender, setGender] = useState("");
 
     const [userloading, setuserloading] = useState(false);
 
@@ -72,12 +78,6 @@ function Login() {
     async function handleRegister(e) {
         e.preventDefault();
 
-        //adding document with user details
-        // const docRef = doc(db, "users_details", "x");
-        // await setDoc(docRef, {
-        //     password: password2,
-        // });
-
         if (password != password2) {
             setError("Passwords didn't match")
         }
@@ -85,6 +85,13 @@ function Login() {
             try {
                 setLoading(true)
                 await signup(email, password)
+
+                //adding document with user details
+                const docRef = doc(db, "users_details", email);
+                await setDoc(docRef, {
+                    password: password2,
+                });
+
             } catch (e) {
                 setError({
                     "auth/invalid-email": "Invalid email passed.",

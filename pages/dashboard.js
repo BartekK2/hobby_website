@@ -36,7 +36,7 @@ function Dashboard({ data }) {
             {loading &&
                 <>
                     <Button variant="contained" onClick={logout}>Wyloguj</Button>
-                    <div>XD</div>
+                    <div>{currentUser && currentUser.uid}</div>
                 </>
             }
         </>
