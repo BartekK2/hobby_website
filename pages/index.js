@@ -6,12 +6,14 @@ import Button from '@mui/material/Button'
 
 // RESPONSIVNES
 import useMediaQuery from '@mui/material/useMediaQuery';
-
+import { useRouter } from 'next/router';
+import { useAuth } from '../contexts/AuthContext';
 function Main() {
-
-
+  const { currentUser } = useAuth();
   // Responsivnes
   const isPhone = useMediaQuery('(min-width:900px)');
+
+  const router = useRouter();
 
   return (
     <>
@@ -23,9 +25,15 @@ function Main() {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ac ante imperdiet, tempus nunc vel, eleifend est. Curabitur mattis est sed nunc consectetur, id finibus lectus iaculis. Mauris imperdiet fermentum metus, sit amet feugiat libero efficitur eu. Vestibulum vel eros ac tortor aliquam porta non id tortor. Maecenas pulvinar dignissim aug
           </h4>
 
-          <Button variant="contained">
-            Utwórz konto
-          </Button>
+          {/* TODO - 2 przyciski tez z loginem i rejestracja i zmien na dobry router.push z dashbordem */}
+          {currentUser ?
+            <Button variant="contained" onClick={() => router.push("/dashboard")}>Przejdź do panelu</Button>
+            :
+            <div style={{ display: "flex", gap: "20px" }}>
+              <Button variant="contained" onClick={() => router.push("/login")}>Zaloguj się</Button>
+              <Button variant="contained" onClick={() => router.push("/login?urlmode=registration")}>Utwórz konto</Button>
+            </div>
+          }
         </div>
 
         <div style={{ display: isPhone ? 'flex' : "none", alignItems: 'center', justifyContent: 'center', width: "60%" }}><div className="grid">

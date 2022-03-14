@@ -5,6 +5,7 @@ const theme = createTheme({
     palette: {
         primary: {
             main: '#f85a5a',
+            white: "#dfdfdf"
         },
         secondary: {
             main: '#edf2ff',
@@ -28,13 +29,36 @@ const theme = createTheme({
                         width: "100%",
                     },
                     padding: "0 20px",
-
+                    color: "white",
                 },
                 label: {
                     textAlign: 'center',
                 },
             },
         },
+        MuiMenuItem: {
+            styleOverrides: {
+                root: ({ theme }) => ({
+                    '&.Mui-selected': {
+                        background: theme.palette.primary.main,
+                        '&:hover': {
+                            background: theme.palette.primary.main,
+                        }
+                    },
+                    '&:hover': {
+                        background: "white",
+                        filter: 'brightness(75%);'
+                    }
+                }),
+            },
+        },
+        MuiChip: {
+            styleOverrides: {
+                root: {
+                    maxWidth: "48%",
+                }
+            }
+        }
     },
 });
 
